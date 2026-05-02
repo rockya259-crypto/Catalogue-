@@ -736,8 +736,8 @@ async function checkPassword(){
 
   // Owner
   if(pw === _OWNER_PW){
-    sessionStorage.setItem('cpAuth',_hp(_OWNER_PW+'O'));
-    sessionStorage.setItem('cpRole','owner');
+    localstorage.setItem('cpAuth',_hp(_OWNER_PW+'O'));
+    localstorage.setItem('cpRole','owner');
     document.getElementById('passwordScreen').style.display='none';
     await loadUserData();
     initApp(); render(); return;
@@ -746,10 +746,10 @@ async function checkPassword(){
   // Customer
   const user2 = _USERS.find(u => u.pw.toUpperCase() === pw);
   if(user2){
-    sessionStorage.setItem('cpAuth',_hp(user2.pw+user2.id));
-    sessionStorage.setItem('cpRole','user');
-    sessionStorage.setItem('cpId', user2.id);
-    sessionStorage.setItem('cpName', user2.name);
+    localstorage.setItem('cpAuth',_hp(user2.pw+user2.id));
+    localstorage.setItem('cpRole','user');
+    localstorage.setItem('cpId', user2.id);
+    localstorage.setItem('cpName', user2.name);
     document.getElementById('passwordScreen').style.display='none';
     await loadUserData();
     initApp(); render(); return;
@@ -760,9 +760,9 @@ async function checkPassword(){
 }
 
 function isAuthenticated(){
-  const auth = sessionStorage.getItem('cpAuth');
-  const role = sessionStorage.getItem('cpRole');
-  const id   = sessionStorage.getItem('cpId');
+  const auth = localstorage.getItem('cpAuth');
+  const role = localstorage.getItem('cpRole');
+  const id   = localstorage.getItem('cpId');
   if(!auth||!role||!id) return false;
   if(role==='owner' && auth===_hp(_OWNER_PW+'O')) return true;
   const user = _USERS.find(u=>u.id===id);
@@ -771,8 +771,8 @@ function isAuthenticated(){
 }
 
 function isOwner(){
-  return sessionStorage.getItem('cpRole')==='owner'&&
-         sessionStorage.getItem('cpAuth')===_hp(_OWNER_PW+'O');
+  return localstorage.getItem('cpRole')==='owner'&&
+         localstorage.getItem('cpAuth')===_hp(_OWNER_PW+'O');
 }
 
 function showPasswordScreen(){
